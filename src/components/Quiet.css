@@ -1,0 +1,50 @@
+.quiet__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
+
+.quiet__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * 3);
+}
+
+.col { padding: calc(var(--u) * 5); border-radius: var(--r-lg); }
+
+/* Левая колонка вдавлена внутрь, правая вылеплена наружу:
+   разницу режимов показывает форма, а не восклицательный знак */
+.col--muted {
+  background: var(--cream);
+  box-shadow: var(--clay-in);
+}
+
+.col--accent { background: var(--surface); }
+
+.col__head { margin-bottom: calc(var(--u) * 3); }
+
+.col--muted .col__head { color: var(--ink-45); }
+
+.col__list { display: grid; gap: calc(var(--u) * 1.5); }
+
+.col__item {
+  position: relative;
+  padding-left: calc(var(--u) * 4.5);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-70);
+}
+
+.col__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .42em;
+  width: calc(var(--u) * 2.5);
+  height: calc(var(--u) * 2.5);
+  border-radius: var(--r-pill);
+  background: var(--ink-15);
+}
+
+.col--accent .col__item { color: var(--ink); }
+
+.col--accent .col__item::before {
+  background: var(--coral);
+  box-shadow: var(--clay-sm);
+}

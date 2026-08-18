@@ -1,0 +1,89 @@
+.rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  padding: calc(var(--u) * 3) 0 calc(var(--u) * 3) calc(var(--u) * 4);
+}
+
+.rail__in {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: calc(var(--u) * 4);
+  height: 100%;
+  padding: calc(var(--u) * 4) calc(var(--u) * 3);
+  border-radius: var(--r-xl);
+  background: var(--sage);
+  box-shadow: var(--clay);
+}
+
+.rail__brand {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: calc(var(--u) * 1.5);
+  text-decoration: none;
+  padding: 0 calc(var(--u));
+}
+
+.rail__mark {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 5.5);
+  height: calc(var(--u) * 5.5);
+  border-radius: var(--r-md);
+  background: var(--coral);
+  color: #FFF6EC;
+  font: 700 15px/1 var(--display);
+  box-shadow: var(--clay-sm);
+}
+
+.rail__name {
+  font: 700 15px/1.15 var(--display);
+  letter-spacing: -.01em;
+}
+
+.rail__nav { display: grid; gap: calc(var(--u)); align-content: start; }
+
+.rail__link {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: calc(var(--u) * 1.75);
+  padding: calc(var(--u) * 1.75) calc(var(--u) * 2);
+  border-radius: var(--r-md);
+  font: 600 15px/1 var(--text);
+  text-decoration: none;
+  color: var(--ink-70);
+  transition: background-color .18s ease, color .18s ease;
+}
+
+.rail__link:hover { background: rgba(255, 255, 255, .55); color: var(--ink); }
+
+/* Активный пункт вылеплен наружу — приём из ориентира */
+.rail__link.is-on {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--clay-sm);
+}
+
+.rail__ico { display: grid; place-items: center; color: var(--coral); }
+
+.rail__foot {
+  display: grid;
+  gap: calc(var(--u));
+  padding: calc(var(--u) * 2.5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, .45);
+}
+
+.rail__where { font-size: 12.5px; line-height: 1.5; color: var(--ink-70); }
+
+.rail__tel {
+  font: 700 14px/1.2 var(--text);
+  text-decoration: none;
+  color: var(--ink);
+  white-space: nowrap;   /* номер не должен рваться на две строки */
+}
+
+.rail__tel:hover { color: var(--coral); }

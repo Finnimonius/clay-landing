@@ -1,0 +1,50 @@
+.subj__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
+
+/* Четыре плитки в ряд — сетка дашборда, а не карточки лендинга */
+.subj__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: calc(var(--u) * 3);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 1.25);
+  padding: calc(var(--u) * 4);
+  border-radius: var(--r-lg);
+}
+
+/* Иконка вылеплена отдельным кружком поверх плитки */
+.card__ico {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 6.5);
+  height: calc(var(--u) * 6.5);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .62);
+  box-shadow: var(--clay-sm);
+  color: var(--ink);
+  margin-bottom: calc(var(--u) * 1.5);
+}
+
+.tile--coral .card__ico { background: rgba(255, 255, 255, .8); }
+
+.card__hint {
+  font: 700 12px/1.3 var(--text);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.tile--coral .card__hint { color: rgba(255, 246, 236, .8); }
+
+.card__text {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-70);
+  margin-top: auto;
+  padding-top: calc(var(--u));
+}
+
+.tile--coral .card__text { color: rgba(255, 246, 236, .9); }

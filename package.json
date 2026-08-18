@@ -1,0 +1,20 @@
+{
+  "name": "clay-landing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Лендинг «Клуб IQ 200» — пластилиновая версия с рейкой слева",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.2.0",
+    "vite": "^7.3.6"
+  }
+}

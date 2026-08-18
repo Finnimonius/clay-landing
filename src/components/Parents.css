@@ -1,0 +1,34 @@
+.par__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
+
+.par__list { display: grid; gap: calc(var(--u) * 2.5); }
+
+.note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: calc(var(--u) * 3);
+  padding: calc(var(--u) * 3.5) calc(var(--u) * 4);
+  border-radius: var(--r-lg);
+}
+
+.note__ico {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 7);
+  height: calc(var(--u) * 7);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .7);
+  box-shadow: var(--clay-sm);
+  color: var(--coral);
+}
+
+.note__body { display: grid; gap: calc(var(--u) * .5); }
+
+.note__head { font: 700 18px/1.25 var(--display); letter-spacing: -.01em; }
+
+.note__text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-70);
+  max-width: 72ch;
+}

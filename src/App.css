@@ -1,0 +1,18 @@
+/* Рейка слева, контент справа: страница собрана как кабинет, а не как лента */
+.app {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: calc(var(--u) * 3);
+  min-height: 100vh;
+  max-width: var(--page);
+  margin-inline: auto;   /* на широком экране поля слева и справа равны */
+}
+
+.app__main {
+  display: grid;
+  gap: calc(var(--u) * 5);
+  align-content: start;
+  min-width: 0;
+  max-width: var(--shell);
+  padding: calc(var(--u) * 3) calc(var(--u) * 4) calc(var(--u) * 6) 0;
+}

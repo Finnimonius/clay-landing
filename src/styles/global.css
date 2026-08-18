@@ -1,0 +1,106 @@
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font: 400 16px/1.65 var(--text);
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+::selection { background: var(--coral); color: #fff; }
+:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+
+/* ── примитивы ─────────────────────────────────────────── */
+
+/* Плитка: цвет отделяет её от фона, тень только добавляет объём */
+.tile {
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--clay);
+  padding: calc(var(--u) * 5);
+}
+
+.tile--surface { background: var(--surface); }
+.tile--sage { background: var(--sage); }
+.tile--peach { background: var(--peach); }
+.tile--butter { background: var(--butter); }
+.tile--coral { background: var(--coral); color: #FFF6EC; }
+
+.label {
+  font: 700 11px/1.4 var(--text);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.h {
+  font: 700 clamp(28px, 3.2vw, 40px)/1.18 var(--display);
+  letter-spacing: -.02em;
+}
+
+.h--sm { font-size: clamp(19px, 1.9vw, 23px); line-height: 1.25; }
+
+.p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-70);
+  max-width: 56ch;
+}
+
+/* Кнопка тоже вылеплена: при нажатии вдавливается внутрь */
+.knob {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 1.5);
+  padding: calc(var(--u) * 2.25) calc(var(--u) * 4);
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--coral);
+  color: #FFF6EC;
+  font: 700 15px/1 var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--clay-sm);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.knob:hover { transform: translateY(-2px); }
+.knob:active { transform: translateY(1px); box-shadow: var(--clay-in); }
+
+.knob--soft {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* Явная пометка на всём, что нельзя принять за готовое */
+.unfilled {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u));
+  padding: calc(var(--u) * .85) calc(var(--u) * 2.25);
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--cream);
+  font: 700 11px/1.4 var(--text);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
