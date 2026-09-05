@@ -1,5 +1,11 @@
 .subj__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
 
+.subj__hint {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-45);
+}
+
 /* Четыре плитки в ряд — сетка дашборда, а не карточки лендинга */
 .subj__grid {
   display: grid;
@@ -7,7 +13,11 @@
   gap: calc(var(--u) * 3);
 }
 
-.card {
+/* Ячейка сетки. Фон и тень переехали на грани — теперь плитка это грань,
+   а не карточка целиком */
+.card { display: grid; }
+
+.face {
   display: flex;
   flex-direction: column;
   gap: calc(var(--u) * 1.25);
@@ -15,21 +25,46 @@
   border-radius: var(--r-lg);
 }
 
-/* Иконка вылеплена отдельным кружком поверх плитки */
-.card__ico {
-  display: grid;
-  place-items: center;
-  width: calc(var(--u) * 6.5);
-  height: calc(var(--u) * 6.5);
-  border-radius: var(--r-md);
-  background: rgba(255, 255, 255, .62);
-  box-shadow: var(--clay-sm);
-  color: var(--ink);
-  margin-bottom: calc(var(--u) * 1.5);
+/* ── снимок ────────────────────────────────────────────── */
+
+.card__slot {
+  position: relative;
+  margin-bottom: calc(var(--u) * 2);
 }
 
-/* .tile--coral — глобальный класс из globals.css, не из этого модуля */
-:global(.tile--coral) .card__ico { background: rgba(255, 255, 255, .8); }
+/* Та же вдавленная рамка, что под рисунком в шапке и под портретами */
+.card__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--clay-in);
+}
+
+/* Исходники разного формата — от квадрата до панорамы, поэтому кадрируем
+   по месту, а точку фокуса каждому задаём в данных */
+.card__img { object-fit: cover; }
+
+/* Иконка лежит внахлёст на углу рамки — тем же приёмом, что адресная
+   плашка на картинке в шапке */
+.card__ico {
+  position: absolute;
+  left: calc(var(--u) * -1.25);
+  bottom: calc(var(--u) * -1.5);
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 5.5);
+  height: calc(var(--u) * 5.5);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .92);
+  box-shadow: var(--clay-sm);
+  color: var(--ink);
+}
+
+/* ── подписи ───────────────────────────────────────────── */
+
+.card__name { margin-top: calc(var(--u) * .5); }
 
 .card__hint {
   font: 700 12px/1.3 var(--text);
@@ -38,6 +73,7 @@
   color: var(--ink-45);
 }
 
+/* .tile--coral — глобальный класс из globals.css, не из этого модуля */
 :global(.tile--coral) .card__hint { color: rgba(255, 246, 236, .8); }
 
 .card__text {
@@ -49,3 +85,51 @@
 }
 
 :global(.tile--coral) .card__text { color: rgba(255, 246, 236, .9); }
+
+/* ── оборот ────────────────────────────────────────────── */
+
+/* Изнанка кремовая при любом цвете лица: плитка покрашена только сверху,
+   а под ней сырой материал. Цвет предмета остаётся в иконке */
+.back { gap: calc(var(--u) * 1.25); }
+
+.back__ico {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 5.5);
+  height: calc(var(--u) * 5.5);
+  border-radius: var(--r-md);
+  box-shadow: var(--clay-sm);
+  color: var(--ink);
+  margin-bottom: calc(var(--u) * 1.5);
+}
+
+.back__ico--surface { background: var(--surface); }
+.back__ico--sage { background: var(--sage); }
+.back__ico--peach { background: var(--peach); }
+.back__ico--butter { background: var(--butter); }
+.back__ico--coral { background: var(--coral); color: #FFF6EC; }
+
+.back__text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* Перевёрнутую карточку всё равно нужно узнавать */
+.back__name {
+  margin-top: auto;
+  padding-top: calc(var(--u) * 1.5);
+  font: 700 12px/1.3 var(--text);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+@media (max-width: 900px) {
+  .subj__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .subj__grid { grid-template-columns: minmax(0, 1fr); gap: calc(var(--u) * 2.5); }
+  .face { padding: calc(var(--u) * 3); }
+}

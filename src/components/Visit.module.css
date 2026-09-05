@@ -1,0 +1,140 @@
+.visit__box {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: calc(var(--u) * 6);
+  align-items: stretch;
+  padding: calc(var(--u) * 6);
+}
+
+.visit__side { display: grid; gap: calc(var(--u) * 1.5); align-content: start; }
+
+.visit__label { color: var(--ink-70); }
+
+.visit__title { max-width: 14ch; }
+
+.visit__lead {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-70);
+  max-width: 42ch;
+}
+
+/* Телефон — единственное целевое действие страницы, поэтому он крупнее всего
+   остального в секции и вылеплен наружу */
+.visit__tel {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: calc(var(--u) * 2.25);
+  margin-top: calc(var(--u) * 2);
+  padding: calc(var(--u) * 2.5) calc(var(--u) * 3);
+  border-radius: var(--r-lg);
+  background: var(--coral);
+  color: #FFF6EC;
+  text-decoration: none;
+  box-shadow: var(--clay-sm);
+  transition:
+    transform .22s var(--ease-press),
+    box-shadow .22s var(--ease-settle);
+}
+
+.visit__tel:hover { transform: translateY(-2px); box-shadow: var(--clay-up); }
+.visit__tel:active { transform: translateY(1px) scale(.99); box-shadow: var(--clay-in); }
+
+.visit__telIco {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 6);
+  height: calc(var(--u) * 6);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .22);
+}
+
+.visit__telK {
+  display: block;
+  font: 700 11px/1.4 var(--text);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 246, 236, .8);
+}
+
+.visit__telN {
+  display: block;
+  font: 700 clamp(19px, 1.9vw, 23px)/1.2 var(--display);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.visit__where {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+  padding: calc(var(--u) * 2.5);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, .5);
+}
+
+.visit__whereIco {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 5.5);
+  height: calc(var(--u) * 5.5);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--clay-sm);
+  color: var(--coral);
+}
+
+.visit__addr { font-size: 14.5px; line-height: 1.4; }
+
+.visit__link {
+  font: 600 13px/1.4 var(--text);
+  color: var(--ink-70);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition:
+    color .2s var(--ease-settle),
+    text-decoration-color .2s var(--ease-settle),
+    text-underline-offset .2s var(--ease-settle);
+}
+
+.visit__link:hover {
+  color: var(--ink);
+  text-decoration-color: var(--coral);
+  text-underline-offset: 4px;
+}
+
+/* Карта живёт в такой же вдавленной рамке, что и рисунок в шапке */
+.visit__map {
+  min-height: calc(var(--u) * 46);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--clay-in);
+}
+
+.visit__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: calc(var(--u) * 46);
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .visit__box {
+    grid-template-columns: minmax(0, 1fr);
+    gap: calc(var(--u) * 4);
+    padding: calc(var(--u) * 4);
+  }
+
+  .visit__title { max-width: none; }
+  .visit__map, .visit__frame { min-height: calc(var(--u) * 40); }
+}
+
+@media (max-width: 560px) {
+  .visit__box { padding: calc(var(--u) * 3); }
+  .visit__map, .visit__frame { min-height: calc(var(--u) * 34); }
+}

@@ -31,13 +31,27 @@
   --clay-in: inset 4px 4px 10px rgba(150, 104, 70, .16),
              inset -4px -4px 10px rgba(255, 255, 255, .7);
 
+  /* Плитку подняли со стола: тень уходит дальше и мягчает */
+  --clay-up: 16px 18px 34px rgba(150, 104, 70, .22),
+             -10px -10px 22px rgba(255, 255, 255, .9);
+
+  /* Пластилин неупругий: ни одна кривая не переходит единицу */
+  --ease-settle: cubic-bezier(.16, 1, .3, 1);
+  --ease-press: cubic-bezier(.34, 1, .64, 1);
+
   --display: var(--font-display), 'Comfortaa', system-ui, sans-serif;
   --text: var(--font-text), 'Nunito', system-ui, sans-serif;
 
-  --rail: 232px;
+  /* 260, а не 232: самый длинный пункт рейки — «Преподаватели», ему нужно
+     113px под подпись, и отступами эти 24px было не отыграть */
+  --rail: 260px;
   --shell: 1240px;
   /* Вся страница — рейка плюс контент — стоит по центру экрана */
   --page: calc(var(--rail) + var(--u) * 3 + var(--shell));
+
+  /* Ниже breakpoint рейка складывается в верхнюю панель этой высоты —
+     значение делят между собой Rail и page.module.css */
+  --bar-h: 64px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -49,6 +63,11 @@ body {
   background: var(--cream);
   color: var(--ink);
   font: 400 16px/1.65 var(--text);
+
+  /* Карточки «Родителям» приезжают справа и до появления в кадре стоят за
+     краем экрана. Именно clip, а не hidden: hidden создал бы контейнер
+     прокрутки и сломал бы липкую рейку */
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, p, ul, ol, dl, figure { margin: 0; }
@@ -57,7 +76,61 @@ a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
 
 ::selection { background: var(--coral); color: #fff; }
-:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+
+:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 4px;
+  transition: outline-offset .16s var(--ease-settle);
+}
+
+/* Поверхности, которые рисует браузер, тоже принадлежат палитре */
+html { scrollbar-color: var(--peach) var(--cream); }
+input, select, textarea { caret-color: var(--coral); }
+
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--cream);
+  border-radius: var(--r-pill);
+  background: var(--peach);
+}
+
+::-webkit-scrollbar-thumb:hover { background: var(--coral); }
+
+/* ── посадка ───────────────────────────────────────────────
+   Плитка не выезжает, а прижимается к листу: анимируется тень.
+   0 — материал на весу, тени нет; 1 — лёг. По умолчанию 1, поэтому
+   без JS страница сразу в конечном виде. */
+
+@property --settle {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+/* Токены переопределены на самом элементе, а не в :root: var(--settle)
+   подставляется там, где объявлена переменная, и в :root навсегда остался
+   бы единицей. */
+.settle {
+  --clay:
+    calc(10px * var(--settle)) calc(10px * var(--settle)) calc(22px * var(--settle))
+      rgba(150, 104, 70, calc(.18 * var(--settle))),
+    calc(-8px * var(--settle)) calc(-8px * var(--settle)) calc(18px * var(--settle))
+      rgba(255, 255, 255, calc(.85 * var(--settle)));
+
+  --clay-sm:
+    calc(5px * var(--settle)) calc(5px * var(--settle)) calc(12px * var(--settle))
+      rgba(150, 104, 70, calc(.16 * var(--settle))),
+    calc(-4px * var(--settle)) calc(-4px * var(--settle)) calc(10px * var(--settle))
+      rgba(255, 255, 255, calc(.8 * var(--settle)));
+
+  --clay-in:
+    inset calc(4px * var(--settle)) calc(4px * var(--settle)) calc(10px * var(--settle))
+      rgba(150, 104, 70, calc(.16 * var(--settle))),
+    inset calc(-4px * var(--settle)) calc(-4px * var(--settle)) calc(10px * var(--settle))
+      rgba(255, 255, 255, calc(.7 * var(--settle)));
+}
 
 /* ── примитивы ─────────────────────────────────────────── */
 
@@ -110,11 +183,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   text-decoration: none;
   cursor: pointer;
   box-shadow: var(--clay-sm);
-  transition: transform .18s ease, box-shadow .18s ease;
+  transition:
+    transform .22s var(--ease-press),
+    box-shadow .22s var(--ease-settle);
 }
 
-.knob:hover { transform: translateY(-2px); }
-.knob:active { transform: translateY(1px); box-shadow: var(--clay-in); }
+.knob:hover { transform: translateY(-2px) scale(1.015); box-shadow: var(--clay-up); }
+
+.knob:active {
+  transform: translateY(1px) scale(.97);
+  box-shadow: var(--clay-in);
+  transition-duration: .09s;   /* отклик обязан опережать глаз */
+}
 
 .knob--soft {
   background: var(--surface);
@@ -135,6 +215,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
   text-transform: uppercase;
 }
 
+/* Та же пометка внутри тесной рамки: в 144 px полноразмерная не помещается */
+.unfilled--sm {
+  padding: calc(var(--u) * .5) calc(var(--u) * 1.25);
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
@@ -142,5 +229,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
+  }
+
+  /* Motion печатает opacity:0 в серверную разметку — на сервере запрет ещё
+     не виден. Без этого правила содержимое осталось бы невидимым: !important
+     здесь не косметика, а единственный способ перебить инлайн. */
+  .settle,
+  .rise {
+    --settle: 1 !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

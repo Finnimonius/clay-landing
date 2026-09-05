@@ -16,3 +16,33 @@
   max-width: var(--shell);
   padding: calc(var(--u) * 3) calc(var(--u) * 4) calc(var(--u) * 6) 0;
 }
+
+/* Якорный переход по рейке иначе кладёт заголовок ровно в край экрана —
+   оставляем сверху отступ, чтобы секция не была прижата к верху */
+.main > section {
+  scroll-margin-top: calc(var(--u) * 3);
+}
+
+/* Ниже breakpoint рейка больше не колонка грида, а верхняя панель поверх
+   контента — сетке остаётся один столбец, а контенту нужен отступ под неё */
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .main {
+    max-width: 100%;
+    padding: calc(var(--bar-h) + var(--u) * 3) calc(var(--u) * 2.5) calc(var(--u) * 6);
+    gap: calc(var(--u) * 4);
+  }
+
+  .main > section { scroll-margin-top: calc(var(--bar-h) + var(--u) * 2); }
+}
+
+@media (max-width: 560px) {
+  .main {
+    padding-inline: calc(var(--u) * 2);
+    gap: calc(var(--u) * 3);
+  }
+}

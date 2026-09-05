@@ -1,4 +1,5 @@
 import { QUIET } from '@/data/content';
+import QuietCompare from './QuietCompare';
 import styles from './Quiet.module.css';
 
 export default function Quiet() {
@@ -10,18 +11,9 @@ export default function Quiet() {
         <p className="p">{QUIET.lead}</p>
       </header>
 
-      <div className={styles.quiet__pair}>
-        {QUIET.columns.map((c) => (
-          <article key={c.head} className={`${styles.col} ${styles[`col--${c.tone}`]} tile`}>
-            <h3 className={`h h--sm ${styles.col__head}`}>{c.head}</h3>
-            <ul className={styles.col__list}>
-              {c.items.map((it) => (
-                <li key={it} className={styles.col__item}>{it}</li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
+      {/* Пары и дуга между колонками — в QuietCompare: ей нужны прокрутка и
+          измерение DOM для дуги, этому компоненту — нет */}
+      <QuietCompare columns={QUIET.columns} />
     </section>
   );
 }

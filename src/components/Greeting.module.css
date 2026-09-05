@@ -6,6 +6,8 @@
   padding: calc(var(--u) * 7);
 }
 
+.greet__text { min-width: 0; }
+
 .greet__hello {
   font: 700 20px/1 var(--display);
   color: var(--coral);
@@ -23,18 +25,24 @@
 
 .greet__chips { display: flex; flex-wrap: wrap; gap: calc(var(--u)); margin-bottom: calc(var(--u) * 4); }
 
-.greet__chip {
-  padding: calc(var(--u)) calc(var(--u) * 2.25);
-  border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, .6);
-  font: 600 13px/1.3 var(--text);
-}
+.greet__chip { position: relative; }
 
 .greet__acts { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 1.5); }
 
 /* ── слот под рисунок ──────────────────────────────────── */
 
-.greet__slot { position: relative; }
+/* Перспектива живёт на внешней фигуре, а наклон — на вложенной обёртке:
+   Settle пишет свой transform инлайном и поворот на том же элементе затёр бы */
+.greet__slot {
+  position: relative;
+  perspective: 900px;
+}
+
+.greet__tilt {
+  position: relative;
+  padding-bottom: calc(var(--u) * 3);   /* место под выступающую плашку */
+  transform-style: preserve-3d;
+}
 
 .greet__frame {
   position: relative;
@@ -45,6 +53,98 @@
   box-shadow: var(--clay-in);
 }
 
+/* Рисунок вжимается в свою вдавленную рамку */
 .greet__img {
   object-fit: cover;
+  animation: heroPress 1.6s var(--ease-settle) .14s both;
+}
+
+@keyframes heroPress {
+  from { transform: scale(1.12); }
+  to   { transform: scale(1); }
+}
+
+/* ── адресная плашка ───────────────────────────────────── */
+
+.greet__where {
+  position: absolute;
+  left: calc(var(--u) * -1.5);
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: calc(var(--u) * 1.75);
+  padding: calc(var(--u) * 1.75) calc(var(--u) * 2.5) calc(var(--u) * 1.75) calc(var(--u) * 1.75);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--clay);
+  text-decoration: none;
+  /* Вынесена вперёд по оси Z: при наклоне рамки плашка уезжает сильнее неё
+     и оттого читается как отдельный предмет, а не наклейка на картинке */
+  transform: translateZ(26px);
+  transition:
+    transform .26s var(--ease-press),
+    box-shadow .26s var(--ease-settle);
+}
+
+.greet__where:hover {
+  transform: translateZ(38px);
+  box-shadow: var(--clay-up);
+}
+
+.greet__go {
+  font: 700 17px/1 var(--text);
+  color: var(--ink-45);
+  transition:
+    transform .26s var(--ease-press),
+    color .26s var(--ease-settle);
+}
+
+.greet__where:hover .greet__go { transform: translateX(3px); color: var(--coral); }
+
+.greet__whereIco {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 5.5);
+  height: calc(var(--u) * 5.5);
+  border-radius: var(--r-md);
+  background: var(--coral);
+  color: #FFF6EC;
+  box-shadow: var(--clay-sm);
+}
+
+.greet__whereText { display: grid; gap: 2px; }
+
+.greet__city {
+  font: 700 15px/1.2 var(--display);
+  letter-spacing: -.01em;
+}
+
+.greet__street {
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--ink-70);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Наклон Motion пишет инлайном, перебить его можно только так */
+  .greet__tilt,
+  .greet__where { transform: none !important; }
+}
+
+@media (max-width: 900px) {
+  .greet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: calc(var(--u) * 5);
+    padding: calc(var(--u) * 4);
+  }
+
+  .greet__title { max-width: none; }
+}
+
+@media (max-width: 560px) {
+  .greet { padding: calc(var(--u) * 3); }
+
+  /* На всю ширину плашка не вылезает за край рамки, а не свисает с угла */
+  .greet__where { left: 0; padding: calc(var(--u) * 1.5) calc(var(--u) * 2); }
 }

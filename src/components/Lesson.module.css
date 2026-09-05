@@ -1,0 +1,91 @@
+.lesson__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
+
+.lesson__box {
+  padding: calc(var(--u) * 5);
+  border-radius: var(--r-xl);
+  background: var(--cream);
+  box-shadow: var(--clay-in);
+}
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: calc(var(--u) * 3);
+}
+
+.step {
+  position: relative;
+  display: grid;
+  gap: calc(var(--u) * 1.25);
+  align-content: start;
+}
+
+/* Нитка между шагами: показывает, что это последовательность, а не четыре
+   независимые карточки. У последнего шага её нет — дальше ничего не следует.
+   Раньше была статичным ::after, теперь настоящий элемент: внутри него
+   едет заливка, синхронная с прокруткой (LessonTrack.tsx) */
+.step__thread {
+  position: absolute;
+  top: calc(var(--u) * 3);
+  left: calc(var(--u) * 7);
+  right: calc(var(--u) * -3);
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--ink-15);
+  overflow: hidden;
+}
+
+.step__threadFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--coral);
+  transform-origin: left;
+}
+
+.step__n {
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 6);
+  height: calc(var(--u) * 6);
+  border-radius: var(--r-md);
+  font: 700 20px/1 var(--display);
+  color: var(--ink);
+  box-shadow: var(--clay-sm);
+  margin-bottom: calc(var(--u) * .75);
+  transition:
+    background-color .4s var(--ease-settle),
+    color .4s var(--ease-settle);
+}
+
+/* Ещё не дошли: цифра стоит бледным контуром своего места, а не цветом
+   предмета — цвет она получит, когда до неё доедет нитка */
+.step__n--idle { background: var(--ink-15); color: var(--ink-45); }
+
+.step__n--surface { background: var(--surface); }
+.step__n--peach   { background: var(--peach); }
+.step__n--butter  { background: var(--butter); }
+.step__n--sage    { background: var(--sage); }
+.step__n--coral   { background: var(--coral); color: #FFF6EC; }
+
+.step__head { font: 700 17px/1.25 var(--display); letter-spacing: -.01em; }
+
+.step__text {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-70);
+}
+
+/* Нитка размечена под четыре колонки в ряд; при переносе на 2 или 1 колонку
+   её горизонтальные координаты перестают что-либо соединять — проще снять,
+   чем пересчитывать под вертикальную раскладку */
+@media (max-width: 900px) {
+  .track { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(var(--u) * 4) calc(var(--u) * 3); }
+  .step__thread { display: none; }
+}
+
+@media (max-width: 560px) {
+  .track { grid-template-columns: minmax(0, 1fr); }
+  .lesson__box { padding: calc(var(--u) * 3.5) calc(var(--u) * 3); }
+}

@@ -1,46 +1,85 @@
-import { CLUB, GREETING } from "@/data/content";
-import ClayIcon from "./ClayIcon";
-import styles from "./Greeting.module.css";
-import Image from "next/image";
+import { CLUB, GREETING } from '@/data/content';
+import ClayIcon from './ClayIcon';
+import Chip from './Chip';
+import Tilt from './Tilt';
+import Settle from './motion/Settle';
+import Rise from './motion/Rise';
+import styles from './Greeting.module.css';
+import Image from 'next/image';
 
+/**
+ * Единственное место с партитурой: плитка, строки, рисунок. Дальше по
+ * странице только материал — иначе приём превратился бы в фон.
+ */
 export default function Greeting() {
   return (
-    <section className={`${styles.greet} tile tile--peach`} id="start">
-      <div className="greet__text">
-        <p className={styles.greet__hello}>{GREETING.hello}</p>
-        <h1 className={`h ${styles.greet__title}`}>{GREETING.title}</h1>
-        <p className={`p ${styles.greet__lead}`}>{GREETING.lead}</p>
+    <Settle as="section" now className={`${styles.greet} tile tile--peach`} id="start">
+      <div className={styles.greet__text}>
+        <Rise as="p" at={0.18} className={styles.greet__hello}>
+          {GREETING.hello}
+        </Rise>
+
+        <Rise as="h1" at={0.26} className={`h ${styles.greet__title}`}>
+          {GREETING.title}
+        </Rise>
+
+        <Rise as="p" at={0.36} className={`p ${styles.greet__lead}`}>
+          {GREETING.lead}
+        </Rise>
 
         <ul className={styles.greet__chips}>
-          {GREETING.chips.map((c) => (
-            <li key={c} className={styles.greet__chip}>
-              {c}
-            </li>
+          {GREETING.chips.map((c, i) => (
+            <Rise as="li" key={c.label} at={0.44 + i * 0.05} className={styles.greet__chip}>
+              <Chip label={c.label} hint={c.hint} />
+            </Rise>
           ))}
         </ul>
 
-        <div className={styles.greet__acts}>
-          <a className="knob" href="#signup" data-action="scroll-to-form">
-            <ClayIcon name="plus" size={18} />
-            {GREETING.primary}
+        <Rise at={0.62} className={styles.greet__acts}>
+          <a className="knob" href={CLUB.phoneHref} data-action="call">
+            <ClayIcon name="phone" size={18} />
+            {GREETING.primary} · {CLUB.phone}
           </a>
-          <a className="knob knob--soft" href={CLUB.phoneHref} data-action="call">
-            {GREETING.secondary} · {CLUB.phone}
+          <a className="knob knob--soft" href="#visit">
+            <ClayIcon name="pin" size={18} />
+            {GREETING.secondary}
           </a>
-        </div>
+        </Rise>
       </div>
 
-      <figure className={styles.greet__slot}>
-        <div className={styles.greet__frame}>
-          <Image
-            src="/images/hero.jpeg"
-            alt="Описание картинки"
-            fill
-            sizes="(max-width: 900px) 100vw, 40vw"
-            className={styles.greet__img}
-          />
-        </div>
-      </figure>
-    </section>
+      <Settle as="figure" now delay={0.14} className={styles.greet__slot}>
+        <Tilt className={styles.greet__tilt}>
+          <div className={styles.greet__frame}>
+            <Image
+              src="/images/hero.jpeg"
+              alt="Занятие в клубе IQ 200"
+              fill
+              sizes="(max-width: 900px) 100vw, 40vw"
+              className={styles.greet__img}
+              priority
+            />
+          </div>
+
+          {/* Адрес обязан читаться на первом экране, до любой прокрутки. Он же
+              и ссылка: увидев адрес, человек первым делом хочет понять, как
+              доехать. Плашка вынесена вперёд по оси Z — при наклоне она
+              всплывает над рамкой сильнее, чем сама рамка */}
+          <a
+            className={styles.greet__where}
+            href="#visit"
+            aria-label={`${GREETING.secondary} — ${CLUB.address}`}
+          >
+            <span className={styles.greet__whereIco}>
+              <ClayIcon name="pin" size={20} />
+            </span>
+            <span className={styles.greet__whereText}>
+              <span className={styles.greet__city}>{CLUB.city}</span>
+              <span className={styles.greet__street}>{CLUB.street}</span>
+            </span>
+            <span className={styles.greet__go} aria-hidden="true">→</span>
+          </a>
+        </Tilt>
+      </Settle>
+    </Settle>
   );
 }

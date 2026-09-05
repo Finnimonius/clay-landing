@@ -1,0 +1,55 @@
+/* Механика переворота. Внешний вид граней приходит классами снаружи. */
+
+.flip {
+  position: relative;
+  display: grid;
+  perspective: 1200px;
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform .62s var(--ease-settle);
+}
+
+/* Лицевая грань стоит в потоке и задаёт высоту карточки, оборотная лежит
+   поверх неё — иначе сетка не знала бы, какой высоты делать ряд */
+.face { backface-visibility: hidden; }
+
+.back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/*
+  Три триггера, разведённые по устройствам, иначе они дерутся: если и наведение,
+  и нажатие переворачивают без оговорок, то на десктопе карточка, перевёрнутая
+  кликом, не возвращается повторным кликом — курсор всё ещё на ней, и правило
+  :hover тут же крутит её обратно. Кнопка выглядит сломанной.
+
+  Мышь: наведение показывает оборот, фокус удерживает его — то есть по клику
+  карточка остаётся перевёрнутой, пока не уведёшь фокус.
+*/
+@media (hover: hover) and (pointer: fine) {
+  .flip:hover .inner,
+  .flip:focus-within .inner { transform: rotateY(180deg); }
+}
+
+/* Палец: наведения нет, работает только переключатель */
+@media (hover: none) {
+  .flip[data-open] .inner { transform: rotateY(180deg); }
+}
+
+/* Накладка на всю карточку: нажать можно куда угодно, и с любой грани */
+.knob {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 0;
+  padding: 0;
+  border-radius: var(--r-lg);
+  background: none;
+  cursor: pointer;
+}

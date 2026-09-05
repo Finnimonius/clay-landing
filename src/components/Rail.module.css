@@ -6,12 +6,23 @@
   padding: calc(var(--u) * 3) 0 calc(var(--u) * 3) calc(var(--u) * 4);
 }
 
+/* Верхняя панель: на широком экране рейка сама себе панель, поэтому
+   .bar скрыта — она существует только как мобильная замена */
+.bar { display: none; }
+
+.backdrop { display: none; }
+
 .rail__in {
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: calc(var(--u) * 4);
+  /* minmax(0, 1fr), а не 1fr: у обычного fr минимум равен содержимому, и на
+     невысоком экране восемь пунктов распирали панель, выталкивая телефон
+     за её нижний край. Ноль в минимуме разрешает треку сжаться */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  /* Список утоплен внутрь на 2.25u отрицательным полем ради тени бегунка,
+     поэтому шаг сетки на столько же больше — видимый просвет остаётся 3u */
+  gap: calc(var(--u) * 5.25);
   height: 100%;
-  padding: calc(var(--u) * 4) calc(var(--u) * 3);
+  padding: calc(var(--u) * 3) calc(var(--u) * 3);
   border-radius: var(--r-xl);
   background: var(--sage);
   box-shadow: var(--clay);
@@ -43,31 +54,103 @@
   letter-spacing: -.01em;
 }
 
-.rail__nav { display: grid; gap: calc(var(--u)); align-content: start; }
+/* Если пункты всё же не помещаются, прокручивается только список: знак клуба
+   сверху и телефон снизу обязаны оставаться на месте — звонок это
+   единственное целевое действие страницы */
+.rail__nav {
+  display: grid;
+  gap: calc(var(--u));
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+
+  /* Тень бегунка мягкая и выходит за его края примерно на 17px, а контейнер
+     прокрутки режет содержимое по прямоугольнику — из-за этого свечение
+     выглядело угловатым. Отступ даёт тени место внутри контейнера,
+     отрицательное поле возвращает список на прежнее место. */
+  margin: calc(var(--u) * -2.25);
+  padding: calc(var(--u) * 2.25);
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(94, 65, 50, .28) transparent;
+}
+
+/* Глобальный бегунок в 12px с кремовой обводкой в узкой рейке смотрелся бы
+   грубо, поэтому здесь свой — тоньше и без рамки */
+.rail__nav::-webkit-scrollbar { width: 6px; }
+.rail__nav::-webkit-scrollbar-track { background: transparent; }
+
+.rail__nav::-webkit-scrollbar-thumb {
+  border: 0;
+  border-radius: var(--r-pill);
+  background: rgba(94, 65, 50, .28);
+}
 
 .rail__link {
+  position: relative;   /* под бегунок */
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: calc(var(--u) * 1.75);
-  padding: calc(var(--u) * 1.75) calc(var(--u) * 2);
+  /* Боковые 1.5u, а не 2u: «Преподавателям» не хватало ровно пары пикселей,
+     и расширять всю рейку ради них было бы дороже */
+  padding: calc(var(--u) * 1.75) calc(var(--u) * 1.5);
   border-radius: var(--r-md);
   font: 600 15px/1 var(--text);
   text-decoration: none;
   color: var(--ink-70);
-  transition: background-color .18s ease, color .18s ease;
+  transition: color .18s var(--ease-settle);
 }
 
-.rail__link:hover { background: rgba(255, 255, 255, .55); color: var(--ink); }
+.rail__link:hover { color: var(--ink); }
 
-/* Активный пункт вылеплен наружу — приём из ориентира */
-.rail__link.is-on {
+/* Фон и тень рисует бегунок, здесь остаётся только цвет текста */
+.rail__link.is-on { color: var(--ink); }
+
+/* Бегунок: один на всю рейку, переезжает между пунктами через layoutId */
+.rail__knob {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--r-md);
   background: var(--surface);
-  color: var(--ink);
   box-shadow: var(--clay-sm);
 }
 
-.rail__ico { display: grid; place-items: center; color: var(--coral); }
+/* Проекция Motion пишет transform инлайном — при запрете движения гасим */
+@media (prefers-reduced-motion: reduce) {
+  .rail__knob { transform: none !important; }
+}
+
+.rail__link:hover:not(.is-on)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .55);
+}
+
+.rail__ico,
+.rail__label { position: relative; z-index: 1; }
+
+/* Полоса прокрутки забирает ширину: длинный пункт должен обрываться
+   многоточием, а не срезанной буквой */
+.rail__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail__ico {
+  display: grid;
+  place-items: center;
+  color: var(--coral);
+  transition: transform .22s var(--ease-press);
+}
+
+.rail__link:hover .rail__ico { transform: scale(1.12); }
+.rail__link:active .rail__ico { transform: scale(.94); }
 
 .rail__foot {
   display: grid;
@@ -87,3 +170,106 @@
 }
 
 .rail__tel:hover { color: var(--coral); }
+
+/* ── мобильная раскладка ───────────────────────────────────
+   Рейка не дублируется отдельным компонентом: та же панель (.rail) вместо
+   сайдбара становится выпадающим меню под верхней панелью (.bar). */
+
+@media (max-width: 900px) {
+  .bar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--bar-h);
+    padding: 0 calc(var(--u) * 2.5);
+    background: var(--sage);
+    box-shadow: var(--clay-sm);
+  }
+
+  .bar__brand { display: grid; place-items: center; text-decoration: none; }
+
+  .bar__acts { display: flex; align-items: center; gap: calc(var(--u) * 1.5); }
+
+  .bar__tel {
+    display: grid;
+    place-items: center;
+    width: calc(var(--u) * 5);
+    height: calc(var(--u) * 5);
+    border-radius: var(--r-pill);
+    background: var(--coral);
+    color: #FFF6EC;
+    box-shadow: var(--clay-sm);
+    text-decoration: none;
+  }
+
+  .bar__toggle {
+    display: grid;
+    place-items: center;
+    width: calc(var(--u) * 5);
+    height: calc(var(--u) * 5);
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--clay-sm);
+    cursor: pointer;
+    transition: transform .2s var(--ease-press);
+  }
+
+  .bar__toggle:active { transform: scale(.94); }
+
+  /* Крестик — тот же плюс, повёрнутый: тот же приём, что в Credentials */
+  .bar__toggleIco { transform: rotate(45deg); }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(58, 40, 30, .45);
+  }
+
+  /* Панель больше не сайдбар, а карточка-подсказка под верхней панелью.
+     Видимость переключается через opacity/visibility, а не display: так
+     переход можно анимировать тем же ease-settle, что и посадку плиток. */
+  .rail {
+    position: fixed;
+    top: calc(var(--bar-h) + var(--u) * 1.5);
+    left: calc(var(--u) * 2);
+    right: calc(var(--u) * 2);
+    height: auto;
+    max-height: calc(100vh - var(--bar-h) - var(--u) * 3);
+    padding: 0;
+    z-index: 55;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(.98);
+    pointer-events: none;
+    transition:
+      opacity .22s var(--ease-settle),
+      transform .22s var(--ease-settle),
+      visibility 0s linear .22s;
+  }
+
+  .rail.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition:
+      opacity .22s var(--ease-settle),
+      transform .22s var(--ease-settle),
+      visibility 0s linear 0s;
+  }
+
+  .rail__in {
+    height: auto;
+    max-height: calc(100vh - var(--bar-h) - var(--u) * 3);
+    padding: calc(var(--u) * 2.5);
+  }
+
+  .rail__brand { padding: 0 calc(var(--u) * .5); }
+}

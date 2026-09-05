@@ -1,0 +1,159 @@
+.teach__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
+
+/* ── визитки ───────────────────────────────────────────── */
+
+.teach__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * 3);
+}
+
+/* Третий ряд забирает остаток высоты: визитки в паре тянутся до общей
+   высоты, и строка с числом документов уходит на самый низ обеих —
+   пробел под коротким текстом перестаёт быть случайным */
+.who {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 18) minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  gap: calc(var(--u) * 3);
+  padding: calc(var(--u) * 4);
+  border-radius: var(--r-xl);
+}
+
+/* ── место под портрет ─────────────────────────────────── */
+
+.who__slot {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: calc(var(--u) * 1.25);
+  width: calc(var(--u) * 18);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--clay-in);
+}
+
+.who__img { object-fit: cover; }
+
+/* Инициалы стоят вместо лица, пока лица нет */
+.who__mark {
+  font: 700 34px/1 var(--display);
+  letter-spacing: -.03em;
+  color: var(--ink-15);
+}
+
+/* ── имя и текст ───────────────────────────────────────── */
+
+.who__id {
+  align-self: center;
+  display: grid;
+  gap: calc(var(--u) * .75);
+}
+
+.who__name {
+  font: 700 clamp(19px, 1.8vw, 23px)/1.2 var(--display);
+  letter-spacing: -.02em;
+}
+
+.who__role {
+  font: 700 11px/1.5 var(--text);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.who__about {
+  grid-column: 1 / -1;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-70);
+}
+
+.who__count {
+  grid-column: 1 / -1;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 1.25);
+  font: 700 12.5px/1.4 var(--text);
+  color: var(--ink-70);
+}
+
+.who__dot {
+  flex: none;
+  width: calc(var(--u));
+  height: calc(var(--u));
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--clay-sm);
+}
+
+/* ── полка ─────────────────────────────────────────────── */
+
+.teach__docs {
+  display: grid;
+  gap: calc(var(--u) * 2.5);
+  margin-top: calc(var(--u) * 5);
+}
+
+.teach__docsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--u) * 1.5);
+}
+
+.teach__docsTitle {
+  font: 700 11px/1.4 var(--text);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.teach__docsCount {
+  display: grid;
+  place-items: center;
+  min-width: calc(var(--u) * 3);
+  height: calc(var(--u) * 3);
+  padding: 0 calc(var(--u) * .75);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--clay-sm);
+  font: 700 11px/1 var(--display);
+  color: var(--coral);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Подсказка уходит к правому краю: она относится ко всей полке,
+   а не к заголовку */
+.teach__hint {
+  margin-left: auto;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-45);
+}
+
+@media (max-width: 900px) {
+  .teach__pair { grid-template-columns: minmax(0, 1fr); gap: calc(var(--u) * 3); }
+}
+
+@media (max-width: 560px) {
+  .who {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    justify-items: center;
+    text-align: center;
+    padding: calc(var(--u) * 3.5) calc(var(--u) * 3);
+  }
+
+  .who__slot { width: calc(var(--u) * 20); }
+  .who__id { justify-items: center; }
+  .who__about,
+  .who__count { grid-column: 1; }
+  .who__count { justify-content: center; }
+
+  .teach__hint { margin-left: 0; }
+}
