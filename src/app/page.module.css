@@ -8,7 +8,7 @@
   margin-inline: auto;   /* на широком экране поля слева и справа равны */
 }
 
-.app__main {
+.main {
   display: grid;
   gap: calc(var(--u) * 5);
   align-content: start;

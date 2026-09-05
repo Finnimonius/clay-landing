@@ -1,9 +1,22 @@
+import type { ReactNode } from 'react';
+
 /**
  * Мягкие иконки: круглые концы линий, никаких острых углов — того же
  * характера, что и плитки. Пути авторские, случайности нет.
  */
 
-const PATHS = {
+export type IconName =
+  | 'home'
+  | 'grid'
+  | 'heart'
+  | 'bell'
+  | 'chart'
+  | 'plus'
+  | 'book'
+  | 'spark'
+  | 'quote';
+
+const PATHS: Record<IconName, ReactNode> = {
   home: <path d="M4 13 14 5l10 8v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />,
   grid: (
     <>
@@ -53,10 +66,16 @@ const PATHS = {
       <path d="M18 17c-2 0-3-1.4-3-3.4 0-4 2.6-7.2 6.4-8.6" />
       <path d="M18 17h4.6c0 3.4-1.4 5.4-4.6 6" />
     </>
-  )
+  ),
 };
 
-export default function ClayIcon({ name = 'grid', size = 26, className }) {
+export interface ClayIconProps {
+  name?: IconName;
+  size?: number;
+  className?: string;
+}
+
+export default function ClayIcon({ name = 'grid', size = 26, className }: ClayIconProps) {
   return (
     <svg
       className={className}

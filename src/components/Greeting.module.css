@@ -36,23 +36,15 @@
 
 .greet__slot { position: relative; }
 
-.greet__stub { position: absolute; top: calc(var(--u) * -1.5); left: calc(var(--u) * 2); z-index: 2; }
-
 .greet__frame {
-  display: grid;
-  place-items: center;
+  position: relative;
+  overflow: hidden;
   aspect-ratio: 1 / .92;
   border-radius: var(--r-xl);
   background: var(--surface);
   box-shadow: var(--clay-in);
 }
 
-.greet__frame-label {
-  padding: calc(var(--u) * 1.25) calc(var(--u) * 3);
-  border-radius: var(--r-pill);
-  background: var(--cream);
-  font: 700 12px/1 var(--text);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-45);
+.greet__img {
+  object-fit: cover;
 }
