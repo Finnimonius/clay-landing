@@ -28,11 +28,20 @@
   box-shadow: var(--clay);
 }
 
+.rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--u) * 1.5);
+  padding-right: calc(var(--u));
+}
+
 .rail__brand {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: calc(var(--u) * 1.5);
+  min-width: 0;
   text-decoration: none;
   padding: 0 calc(var(--u));
 }
@@ -72,7 +81,7 @@
   padding: calc(var(--u) * 2.25);
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(94, 65, 50, .28) transparent;
+  scrollbar-color: rgba(var(--hairline-rgb), .28) transparent;
 }
 
 /* Глобальный бегунок в 12px с кремовой обводкой в узкой рейке смотрелся бы
@@ -83,7 +92,7 @@
 .rail__nav::-webkit-scrollbar-thumb {
   border: 0;
   border-radius: var(--r-pill);
-  background: rgba(94, 65, 50, .28);
+  background: rgba(var(--hairline-rgb), .28);
 }
 
 .rail__link {
@@ -127,7 +136,7 @@
   position: absolute;
   inset: 0;
   border-radius: var(--r-md);
-  background: rgba(255, 255, 255, .55);
+  background: rgba(var(--veil-rgb), .55);
 }
 
 .rail__ico,
@@ -157,7 +166,7 @@
   gap: calc(var(--u));
   padding: calc(var(--u) * 2.5);
   border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, .45);
+  background: rgba(var(--veil-rgb), .45);
 }
 
 .rail__where { font-size: 12.5px; line-height: 1.5; color: var(--ink-70); }

@@ -46,7 +46,7 @@
   width: calc(var(--u) * 7);
   height: calc(var(--u) * 7);
   border-radius: var(--r-md);
-  background: rgba(255, 255, 255, .7);
+  background: rgba(var(--veil-rgb), .7);
   box-shadow: var(--clay-sm);
   color: var(--coral);
   transition:
@@ -57,7 +57,7 @@
 .note:hover .note__ico,
 .note.is-open .note__ico {
   transform: rotate(-5deg) scale(1.06);
-  background: rgba(255, 255, 255, .92);
+  background: rgba(var(--veil-rgb), .92);
 }
 
 .note__body {

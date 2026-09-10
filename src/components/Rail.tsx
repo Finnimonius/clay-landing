@@ -6,6 +6,7 @@ import { CLUB, RAIL } from '@/data/content';
 import { GLIDE } from '@/lib/motion';
 import ClayIcon from './ClayIcon';
 import Settle from './motion/Settle';
+import ThemeToggle from './ThemeToggle';
 import styles from './Rail.module.css';
 
 /**
@@ -109,6 +110,8 @@ export default function Rail() {
         </a>
 
         <div className={styles.bar__acts}>
+          <ThemeToggle />
+
           <a
             className={styles.bar__tel}
             href={CLUB.phoneHref}
@@ -151,10 +154,14 @@ export default function Rail() {
         className={`${styles.rail}${menuOpen ? ` ${styles['is-open']}` : ''}`}
       >
         <Settle now className={styles.rail__in}>
-          <a className={styles.rail__brand} href="#start" onClick={closeMenu}>
-            <span className={styles.rail__mark}>IQ</span>
-            <span className={styles.rail__name}>Клуб<br />IQ&nbsp;200</span>
-          </a>
+          <div className={styles.rail__head}>
+            <a className={styles.rail__brand} href="#start" onClick={closeMenu}>
+              <span className={styles.rail__mark}>IQ</span>
+              <span className={styles.rail__name}>Клуб<br />IQ&nbsp;200</span>
+            </a>
+
+            <ThemeToggle />
+          </div>
 
           <nav className={styles.rail__nav} aria-label="Разделы">
             {RAIL.map((r) => {

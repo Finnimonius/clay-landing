@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Comfortaa, Nunito } from 'next/font/google';
+import Script from 'next/script';
+import { THEME_INIT_SCRIPT } from '@/lib/theme';
 import './globals.css';
 
 const comfortaa = Comfortaa({
@@ -28,8 +30,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="ru" className={`${comfortaa.variable} ${nunito.variable}`}>
-      <body>{children}</body>
+    <html lang="ru" className={`${comfortaa.variable} ${nunito.variable}`} suppressHydrationWarning>
+      <body>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

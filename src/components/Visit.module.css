@@ -47,7 +47,7 @@
   width: calc(var(--u) * 6);
   height: calc(var(--u) * 6);
   border-radius: var(--r-md);
-  background: rgba(255, 255, 255, .22);
+  background: rgba(var(--veil-rgb), .22);
 }
 
 .visit__telK {
@@ -72,7 +72,7 @@
   gap: calc(var(--u) * 2);
   padding: calc(var(--u) * 2.5);
   border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, .5);
+  background: rgba(var(--veil-rgb), .5);
 }
 
 .visit__whereIco {

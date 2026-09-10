@@ -18,7 +18,9 @@ export type IconName =
   | 'pin'
   | 'phone'
   | 'bulb'
-  | 'menu';
+  | 'menu'
+  | 'sun'
+  | 'moon';
 
 const PATHS: Record<IconName, ReactNode> = {
   home: <path d="M4 13 14 5l10 8v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />,
@@ -94,6 +96,13 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M5 20h18" />
     </>
   ),
+  sun: (
+    <>
+      <circle cx="14" cy="14" r="5.4" />
+      <path d="M14 3v3.4M14 21.6V25M3 14h3.4M21.6 14H25M6.2 6.2l2.4 2.4M19.4 19.4l2.4 2.4M21.8 6.2l-2.4 2.4M8.6 19.4l-2.4 2.4" />
+    </>
+  ),
+  moon: <path d="M22.8 17.4A10 10 0 0 1 10.6 5.2a10 10 0 1 0 12.2 12.2z" />,
 };
 
 export interface ClayIconProps {

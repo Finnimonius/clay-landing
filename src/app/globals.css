@@ -52,6 +52,39 @@
   /* Ниже breakpoint рейка складывается в верхнюю панель этой высоты —
      значение делят между собой Rail и page.module.css */
   --bar-h: 64px;
+
+  --veil-rgb: 255, 255, 255;
+  --hairline-rgb: 94, 65, 50;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --cream: #241810;
+  --sage: #34382D;
+  --peach: #7C4E31;
+  --butter: #9C7327;
+  --ink: #F2E3D3;
+
+  --surface: #362619;
+
+  --ink-70: rgba(242, 227, 211, .72);
+  --ink-45: rgba(242, 227, 211, .48);
+  --ink-15: rgba(242, 227, 211, .15);
+
+  --veil-rgb: 54, 38, 25;
+  --hairline-rgb: 242, 227, 211;
+
+  --clay: 10px 10px 22px rgba(0, 0, 0, .55),
+          -8px -8px 18px rgba(255, 255, 255, .05);
+  --clay-sm: 5px 5px 12px rgba(0, 0, 0, .5),
+             -4px -4px 10px rgba(255, 255, 255, .045);
+  --clay-in: inset 4px 4px 10px rgba(0, 0, 0, .5),
+             inset -4px -4px 10px rgba(255, 255, 255, .04);
+  --clay-up: 16px 18px 34px rgba(0, 0, 0, .6),
+             -10px -10px 22px rgba(255, 255, 255, .06);
+
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -63,6 +96,7 @@ body {
   background: var(--cream);
   color: var(--ink);
   font: 400 16px/1.65 var(--text);
+  transition: background-color .3s var(--ease-settle), color .3s var(--ease-settle);
 
   /* Карточки «Родителям» приезжают справа и до появления в кадре стоят за
      краем экрана. Именно clip, а не hidden: hidden создал бы контейнер
@@ -132,6 +166,26 @@ input, select, textarea { caret-color: var(--coral); }
       rgba(255, 255, 255, calc(.7 * var(--settle)));
 }
 
+:root[data-theme='dark'] .settle {
+  --clay:
+    calc(10px * var(--settle)) calc(10px * var(--settle)) calc(22px * var(--settle))
+      rgba(0, 0, 0, calc(.55 * var(--settle))),
+    calc(-8px * var(--settle)) calc(-8px * var(--settle)) calc(18px * var(--settle))
+      rgba(255, 255, 255, calc(.05 * var(--settle)));
+
+  --clay-sm:
+    calc(5px * var(--settle)) calc(5px * var(--settle)) calc(12px * var(--settle))
+      rgba(0, 0, 0, calc(.5 * var(--settle))),
+    calc(-4px * var(--settle)) calc(-4px * var(--settle)) calc(10px * var(--settle))
+      rgba(255, 255, 255, calc(.045 * var(--settle)));
+
+  --clay-in:
+    inset calc(4px * var(--settle)) calc(4px * var(--settle)) calc(10px * var(--settle))
+      rgba(0, 0, 0, calc(.5 * var(--settle))),
+    inset calc(-4px * var(--settle)) calc(-4px * var(--settle)) calc(10px * var(--settle))
+      rgba(255, 255, 255, calc(.04 * var(--settle)));
+}
+
 /* ── примитивы ─────────────────────────────────────────── */
 
 /* Плитка: цвет отделяет её от фона, тень только добавляет объём */
@@ -140,6 +194,10 @@ input, select, textarea { caret-color: var(--coral); }
   background: var(--surface);
   box-shadow: var(--clay);
   padding: calc(var(--u) * 5);
+  transition:
+    background-color .3s var(--ease-settle),
+    color .3s var(--ease-settle),
+    box-shadow .3s var(--ease-settle);
 }
 
 .tile--surface { background: var(--surface); }

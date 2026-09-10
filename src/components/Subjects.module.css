@@ -57,7 +57,7 @@
   width: calc(var(--u) * 5.5);
   height: calc(var(--u) * 5.5);
   border-radius: var(--r-md);
-  background: rgba(255, 255, 255, .92);
+  background: rgba(var(--veil-rgb), .92);
   box-shadow: var(--clay-sm);
   color: var(--ink);
 }
