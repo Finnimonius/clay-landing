@@ -277,8 +277,17 @@
   .rail__in {
     height: auto;
     max-height: calc(100vh - var(--bar-h) - var(--u) * 3);
-    padding: calc(var(--u) * 2.5);
+    /* Список больше не растягивается на всю высоту рейки, поэтому большой
+       зазор десктопной сетки здесь ни к чему — выпадашка держится компактной */
+    gap: calc(var(--u) * 2.5);
+    padding: calc(var(--u) * 2);
   }
 
   .rail__brand { padding: 0 calc(var(--u) * .5); }
+
+  .rail__theme { display: none; }
+
+  .rail__link { padding: calc(var(--u) * 1.25) calc(var(--u) * 1.5); }
+
+  .rail__foot { padding: calc(var(--u) * 1.75); }
 }

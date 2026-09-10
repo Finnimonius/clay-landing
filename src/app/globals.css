@@ -10,6 +10,7 @@
   --ink: #5E4132;    /* текст */
 
   --butter: #F9BA56; /* четвёртый оттенок плиток, тоже из скриншота */
+  --mist: #BFCEDC;   /* пятый оттенок плиток, добавлен под пятый предмет */
   --surface: #FFF6EC;/* светлая плитка поверх фона */
 
   --ink-70: rgba(94, 65, 50, .72);
@@ -64,6 +65,7 @@
   --sage: #34382D;
   --peach: #7C4E31;
   --butter: #9C7327;
+  --mist: #3A4957;
   --ink: #F2E3D3;
 
   --surface: #362619;
@@ -100,7 +102,11 @@ body {
 
   /* Карточки «Родителям» приезжают справа и до появления в кадре стоят за
      краем экрана. Именно clip, а не hidden: hidden создал бы контейнер
-     прокрутки и сломал бы липкую рейку */
+     прокрутки и сломал бы липкую рейку. hidden объявлен раньше как запасной
+     вариант для браузеров без поддержки clip — без него любой случайный
+     выход контента за край (например, подсказка над чипом) не резался бы,
+     а по-настоящему расширял страницу и сдвигал её от центра. */
+  overflow-x: hidden;
   overflow-x: clip;
 }
 
@@ -204,6 +210,7 @@ input, select, textarea { caret-color: var(--coral); }
 .tile--sage { background: var(--sage); }
 .tile--peach { background: var(--peach); }
 .tile--butter { background: var(--butter); }
+.tile--mist { background: var(--mist); }
 .tile--coral { background: var(--coral); color: #FFF6EC; }
 
 .label {

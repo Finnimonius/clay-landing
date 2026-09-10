@@ -29,6 +29,8 @@
 
 .greet__acts { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 1.5); }
 
+.greet__callText { display: inline-flex; align-items: baseline; gap: .35em; }
+
 /* ── слот под рисунок ──────────────────────────────────── */
 
 /* Перспектива живёт на внешней фигуре, а наклон — на вложенной обёртке:
@@ -147,4 +149,9 @@
 
   /* На всю ширину плашка не вылезает за край рамки, а не свисает с угла */
   .greet__where { left: 0; padding: calc(var(--u) * 1.5) calc(var(--u) * 2); }
+
+  /* «Позвонить · 8-917-…» в кнопке-пилюле не помещается в строку и рвётся
+     по живому — вместо случайного переноса номер уезжает на свою строку */
+  .greet__callText { flex-direction: column; align-items: flex-start; gap: 0; }
+  .greet__callSep { display: none; }
 }

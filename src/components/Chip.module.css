@@ -61,3 +61,20 @@
   width: calc(var(--u) * 1.1);
   height: calc(var(--u) * 1.1);
 }
+
+/* На узком экране смещение на 7u от кнопки уводило облако за край
+   вьюпорта — вправо расти уже некуда, поэтому подсказка вместо этого
+   центрируется прямо над своим чипом и не шире доступной ширины */
+@media (max-width: 560px) {
+  .anchor {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .cloud {
+    max-width: min(220px, calc(100vw - var(--u) * 6));
+  }
+
+  .cloud::before,
+  .cloud::after { display: none; }
+}

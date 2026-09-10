@@ -38,7 +38,11 @@ export default function Greeting() {
         <Rise at={0.62} className={styles.greet__acts}>
           <a className="knob" href={CLUB.phoneHref} data-action="call">
             <ClayIcon name="phone" size={18} />
-            {GREETING.primary} · {CLUB.phone}
+            <span className={styles.greet__callText}>
+              <span>{GREETING.primary}</span>
+              <span className={styles.greet__callSep} aria-hidden="true">·</span>
+              <span className={styles.greet__callNum}>{CLUB.phone}</span>
+            </span>
           </a>
           <a className="knob knob--soft" href="#visit">
             <ClayIcon name="pin" size={18} />

@@ -5,6 +5,7 @@ import Lesson from "@/components/Lesson";
 import Parents from "@/components/Parents";
 import Teachers from "@/components/Teachers";
 import Quiet from "@/components/Quiet";
+import Prices from "@/components/Prices";
 import Visit from "@/components/Visit";
 import Footer from "@/components/Footer";
 import styles from "./page.module.css";
@@ -20,6 +21,7 @@ export default function Home() {
         <Parents />
         <Teachers />
         <Quiet />
+        <Prices />
         <Visit />
         <Footer />
       </main>

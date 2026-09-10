@@ -1,31 +1,9 @@
 .quiet__head { display: grid; gap: calc(var(--u) * 1.5); margin-bottom: calc(var(--u) * 4); }
 
-/* position: relative держит дугу сравнения (.bridge) — она меряет свой зазор
-   от этого же контейнера, поэтому и позиционируется относительно него */
 .quiet__pair {
-  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: calc(var(--u) * 3);
-}
-
-/* Дуга живёт только в зазоре между карточками: он ничем больше не занят,
-   поэтому загораживать и быть загороженной ей нечем — z-index не нужен */
-.bridge {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.bridge__path {
-  fill: none;
-  stroke: var(--coral);
-  stroke-width: 2;
-  stroke-linecap: round;
-  transition: d .3s var(--ease-settle);
 }
 
 .col { padding: calc(var(--u) * 5); border-radius: var(--r-lg); }
@@ -99,11 +77,8 @@
    того, что это один случай, увиденный дважды */
 .col__item.is-on .col__dot { background: var(--coral); box-shadow: var(--clay-sm); }
 
-/* Дуга рисуется между колонками, стоящими бок о бок; в один столбец её
-   координаты уже ничего не соединяют — проще снять, чем пересчитывать */
 @media (max-width: 900px) {
   .quiet__pair { grid-template-columns: minmax(0, 1fr); gap: calc(var(--u) * 4); }
-  .bridge { display: none; }
 }
 
 @media (max-width: 560px) {

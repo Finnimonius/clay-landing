@@ -160,7 +160,7 @@ export default function Rail() {
               <span className={styles.rail__name}>Клуб<br />IQ&nbsp;200</span>
             </a>
 
-            <ThemeToggle />
+            <ThemeToggle className={styles.rail__theme} />
           </div>
 
           <nav className={styles.rail__nav} aria-label="Разделы">

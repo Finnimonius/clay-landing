@@ -3,6 +3,7 @@ import { SUBJECTS } from '@/data/content';
 import ClayIcon from './ClayIcon';
 import Flip from './Flip';
 import Settle from './motion/Settle';
+import SubjectArt from './SubjectArt';
 import styles from './Subjects.module.css';
 
 export default function Subjects() {
@@ -57,6 +58,11 @@ export default function Subjects() {
 
                   <p className="label">{SUBJECTS.factLabel}</p>
                   <p className={styles.back__text}>{s.fact}</p>
+
+                  <div className={styles.back__art}>
+                    <SubjectArt name={s.art} className={styles.back__draw} />
+                  </div>
+
                   <p className={styles.back__name}>{s.name}</p>
                 </>
               }

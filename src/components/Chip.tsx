@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { GLIDE } from '@/lib/motion';
 import ClayIcon from './ClayIcon';
@@ -14,6 +14,18 @@ export interface ChipProps {
 export default function Chip({ label, hint }: ChipProps) {
   const [open, setOpen] = useState(false);
   const id = useId();
+
+  /* На тачскрине tap синтезирует mouseenter, но не mouseleave — без этого
+     подсказка осталась бы открытой до следующего клика где угодно на
+     странице, а не только на этом чипе */
+  useEffect(() => {
+    if (!open) return;
+
+    const close = () => setOpen(false);
+    document.addEventListener('touchstart', close, { passive: true });
+
+    return () => document.removeEventListener('touchstart', close);
+  }, [open]);
 
   return (
     <>

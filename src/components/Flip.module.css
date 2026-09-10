@@ -3,19 +3,21 @@
 .flip {
   position: relative;
   display: grid;
+  min-width: 0;
   perspective: 1200px;
 }
 
 .inner {
   position: relative;
   display: grid;
+  min-width: 0;
   transform-style: preserve-3d;
   transition: transform .62s var(--ease-settle);
 }
 
 /* Лицевая грань стоит в потоке и задаёт высоту карточки, оборотная лежит
    поверх неё — иначе сетка не знала бы, какой высоты делать ряд */
-.face { backface-visibility: hidden; }
+.face { min-width: 0; backface-visibility: hidden; }
 
 .back {
   position: absolute;

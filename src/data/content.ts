@@ -1,4 +1,5 @@
 import type { IconName } from '@/components/ClayIcon';
+import type { SubjectArtName } from '@/components/SubjectArt';
 
 /**
  * Тексты «пластилиновой» версии.
@@ -7,8 +8,8 @@ import type { IconName } from '@/components/ClayIcon';
  * а выдумывать цифры нельзя.
  */
 
-/** Оттенки плиток из globals.css (.tile--surface/sage/peach/butter/coral). */
-export type TileTone = 'surface' | 'sage' | 'peach' | 'butter' | 'coral';
+/** Оттенки плиток из globals.css (.tile--surface/sage/peach/butter/mist/coral). */
+export type TileTone = 'surface' | 'sage' | 'peach' | 'butter' | 'mist' | 'coral';
 
 export interface ClubInfo {
   city: string;
@@ -42,6 +43,7 @@ export const RAIL: RailItem[] = [
   { id: 'parents', label: 'Родителям', icon: 'bell' },
   { id: 'teachers', label: 'Преподаватели', icon: 'spark' },
   { id: 'quiet', label: 'Атмосфера', icon: 'heart' },
+  { id: 'prices', label: 'Цены', icon: 'tag' },
   { id: 'visit', label: 'Как прийти', icon: 'pin' },
 ];
 
@@ -63,9 +65,9 @@ export const GREETING: GreetingContent = {
   hello: 'Привет!',
   title: 'Здесь учиться интересно',
   lead:
-    'Клуб IQ 200 в Самаре: математика, история, физика и литература для ' +
-    'школьников 12–16 лет. Здесь можно сказать «я не понял» и получить в ответ ' +
-    'объяснение, а не отметку. Группы такие, что услышат каждого.',
+    'Клуб IQ 200 в Самаре: математика, история, физика, литература и ' +
+    'обществознание для школьников 12–16 лет. Здесь можно сказать «я не понял» ' +
+    'и получить в ответ объяснение, а не отметку. Группы такие, что услышат каждого.',
   primary: 'Позвонить',
   secondary: 'Как доехать',
   chips: [
@@ -95,6 +97,7 @@ export interface SubjectItem {
   text: string;
   /** Что на обороте карточки. */
   fact: string;
+  art: SubjectArtName;
   tone: TileTone;
   icon: IconName;
   image: string;
@@ -116,7 +119,7 @@ export interface SubjectsContent {
 
 export const SUBJECTS: SubjectsContent = {
   label: 'Предметы',
-  title: 'Четыре направления',
+  title: 'Пять направлений',
   lead: 'Можно взять одно, можно собрать свой набор — расписанием они не связаны.',
   flipHint: 'Нажмите на карточку или наведите на неё — на обороте факт',
   factLabel: 'Факт',
@@ -131,6 +134,7 @@ export const SUBJECTS: SubjectsContent = {
         'Знак равенства придумал в 1557 году Роберт Рекорд: он устал писать ' +
         '«равно» словами и взял две параллельные черты — ничто не бывает ' +
         'равнее их.',
+      art: 'parabola',
       tone: 'peach',
       icon: 'grid',
       image: '/images/subjects/math.webp',
@@ -143,6 +147,7 @@ export const SUBJECTS: SubjectsContent = {
       fact:
         'Клеопатра жила ближе к появлению первого айфона, чем к постройке ' +
         'пирамиды Хеопса. Между ней и пирамидой — две с половиной тысячи лет.',
+      art: 'temple',
       tone: 'sage',
       icon: 'book',
       image: '/images/subjects/history.webp',
@@ -156,6 +161,7 @@ export const SUBJECTS: SubjectsContent = {
       fact:
         'Свет идёт от Солнца до Земли восемь минут. Всё, что мы видим на небе, — ' +
         'это прошлое, просто разной давности.',
+      art: 'atom',
       tone: 'butter',
       icon: 'spark',
       image: '/images/subjects/physics.webp',
@@ -169,9 +175,27 @@ export const SUBJECTS: SubjectsContent = {
       fact:
         'Слово «робот» родилось не в лаборатории, а в чешской пьесе 1920 года. ' +
         'Придумали его братья Чапеки, и в пьесе роботы устраивают восстание.',
-      tone: 'coral',
+      art: 'book',
+      tone: 'surface',
       icon: 'quote',
       image: '/images/subjects/literature.webp',
+    },
+    {
+      id: 'social',
+      name: 'Обществознание',
+      hint: 'не зубрёжка, а смысл',
+      text:
+        'Разбираем законы, деньги и отношения в обществе на примерах из жизни, ' +
+        'а не на пересказе определений.',
+      fact:
+        'Первые в мире монеты чеканили в Лидии в VII веке до н. э. — не столько ' +
+        'для торговли, сколько чтобы доказывать чистоту золота: обмен товарами ' +
+        'шёл и без них.',
+      art: 'people',
+      tone: 'mist',
+      icon: 'chart',
+      image: '/images/subjects/social1.webp',
+      focus: 'center 60%',
     },
   ],
 };
@@ -231,6 +255,85 @@ export const QUIET: QuietContent = {
   ],
 };
 
+export interface PricePlan {
+  id: string;
+  name: string;
+  price: number;
+  note: string;
+  tone: TileTone;
+}
+
+export interface PriceLine {
+  name: string;
+  price: string;
+  note: string;
+  accent?: boolean;
+}
+
+export interface PricesContent {
+  label: string;
+  title: string;
+  lead: string;
+  per: string;
+  currency: string;
+  plans: PricePlan[];
+  linesTitle: string;
+  lines: PriceLine[];
+}
+
+export const PRICES: PricesContent = {
+  label: 'Цены',
+  title: 'Сколько это стоит',
+  lead:
+    'Два учебных дня в неделю по 3,5 часа — это пять академических часов за ' +
+    'день. Пять предметов делят их между собой, поэтому на каждый выходит по ' +
+    'два академических часа в неделю.',
+  per: 'в месяц',
+  currency: '₽',
+  plans: [
+    {
+      id: 'one',
+      name: 'Один предмет',
+      price: 4000,
+      note: 'Два академических часа в неделю в мини-группе.',
+      tone: 'surface',
+    },
+    {
+      id: 'two',
+      name: 'Два предмета',
+      price: 8000,
+      note: 'По два академических часа в неделю на каждый.',
+      tone: 'sage',
+    },
+    {
+      id: 'all',
+      name: 'От трёх до пяти',
+      price: 12000,
+      note: 'Цена одна: хоть три предмета, хоть все пять.',
+      tone: 'butter',
+    },
+  ],
+  linesTitle: 'Отдельно',
+  lines: [
+    {
+      name: 'Занятие в мини-группе',
+      price: '500 ₽',
+      note: 'За академический час, если не брать курс на месяц.',
+    },
+    {
+      name: 'Индивидуальное занятие',
+      price: '1000 ₽',
+      note: 'По любому предмету, один на один с преподавателем.',
+    },
+    {
+      name: 'Первое пробное',
+      price: 'бесплатно',
+      note: 'Одно занятие, чтобы посмотреть на клуб изнутри.',
+      accent: true,
+    },
+  ],
+};
+
 /**
  * Преподаватели и дипломы.
  *
@@ -276,7 +379,9 @@ export const TEACHERS: TeachersContent = {
   label: 'Преподаватели',
   title: 'Учителя, к которым можно прийти',
   lead:
-    'Оба закончили университет по своему предмету и преподают больше тридцати лет.',
+    'В клубе нет отдельного кабинета с незнакомым специалистом — есть два ' +
+    'человека на все пять предметов и на любой трудный разговор. Тот, кто ' +
+    'вёл урок, — тот же, к кому можно обратиться, если разговор не про предмет.',
   docsTitle: 'Дипломы и сертификаты',
   docsHint: 'Нажмите, чтобы рассмотреть',
   people: [
@@ -343,11 +448,11 @@ export const TEACHERS: TeachersContent = {
       name: 'Евец Александр Борисович',
       short: 'Александр Борисович',
       initials: 'АБ',
-      role: 'История, литература',
+      role: 'История, литература, обществознание',
       tone: 'sage',
       about:
-        'Историк, который ведёт ещё и литературу. Поэтому текст у него всегда ' +
-        'стоит в своём времени, а не висит в пустоте.',
+        'Историк, который ведёт ещё литературу и обществознание. Поэтому текст ' +
+        'у него всегда стоит в своём времени, а не висит в пустоте.',
       credentials: [
         {
           file: '5251484220113234271.webp',

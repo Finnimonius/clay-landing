@@ -11,8 +11,7 @@ export default function Quiet() {
         <p className="p">{QUIET.lead}</p>
       </header>
 
-      {/* Пары и дуга между колонками — в QuietCompare: ей нужны прокрутка и
-          измерение DOM для дуги, этому компоненту — нет */}
+      {/* Пары и подсветка активной по прокрутке — в QuietCompare */}
       <QuietCompare columns={QUIET.columns} />
     </section>
   );

@@ -17,8 +17,6 @@ export default function QuietCompare({ columns }: QuietCompareProps) {
   const n = left.items.length;
 
   const wrapRef = useRef<HTMLDivElement>(null);
-  const dotsLeft = useRef<(HTMLSpanElement | null)[]>([]);
-  const dotsRight = useRef<(HTMLSpanElement | null)[]>([]);
 
   const [active, setActive] = useState(0);
 
@@ -70,44 +68,8 @@ export default function QuietCompare({ columns }: QuietCompareProps) {
     };
   }, [n]);
 
-  const [d, setD] = useState('');
-
-  useLayoutEffect(() => {
-    const wrap = wrapRef.current;
-    const a = dotsLeft.current[active];
-    const b = dotsRight.current[active];
-    if (!wrap || !a || !b) return;
-
-    const update = () => {
-      const box = wrap.getBoundingClientRect();
-      const gap = parseFloat(getComputedStyle(wrap).columnGap || '0');
-      const colWidth = (box.width - gap) / 2;
-      const x1 = colWidth;
-      const x2 = colWidth + gap;
-
-      const y = (el: HTMLElement) => {
-        const r = el.getBoundingClientRect();
-        return r.top + r.height / 2 - box.top;
-      };
-
-      const y1 = y(a);
-      const y2 = y(b);
-      const midX = (x1 + x2) / 2;
-
-      setD(`M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`);
-    };
-
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, [active]);
-
   return (
     <div className={styles.quiet__pair} ref={wrapRef}>
-      <svg className={styles.bridge} aria-hidden="true">
-        <path className={styles.bridge__path} d={d} />
-      </svg>
-
       {[left, right].map((c, ci) => (
         <Settle
           as="article"
@@ -131,10 +93,7 @@ export default function QuietCompare({ columns }: QuietCompareProps) {
           <ul className={styles.col__list}>
             {c.items.map((it, i) => (
               <li key={it} className={`${styles.col__item} ${styles[active === i ? 'is-on' : 'is-off']}`}>
-                <span
-                  className={styles.col__dot}
-                  ref={(el) => { (ci === 0 ? dotsLeft : dotsRight).current[i] = el; }}
-                />
+                <span className={styles.col__dot} />
                 {it}
               </li>
             ))}

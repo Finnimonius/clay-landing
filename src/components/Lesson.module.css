@@ -67,6 +67,7 @@
 .step__n--peach   { background: var(--peach); }
 .step__n--butter  { background: var(--butter); }
 .step__n--sage    { background: var(--sage); }
+.step__n--mist    { background: var(--mist); }
 .step__n--coral   { background: var(--coral); color: #FFF6EC; }
 
 .step__head { font: 700 17px/1.25 var(--display); letter-spacing: -.01em; }
